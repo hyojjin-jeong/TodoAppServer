@@ -31,13 +31,13 @@ public class ScheduleController {
         return scheduleService.getSchedules();
     }
 
-    @PutMapping("/schedules/{id}/{password}")
-    public Long updateSchedule(@PathVariable Long id, @PathVariable String password, @RequestBody ScheduleRequestDto scheduleRequestDto) {
-        return scheduleService.updateSchedule(id, password, scheduleRequestDto);
+    @PutMapping("/schedules/{id}")
+    public Long updateSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto scheduleRequestDto) {
+        return scheduleService.updateSchedule(id, scheduleRequestDto);
     }
 
-    @DeleteMapping("/schedules/{id}/{password}")
-    public Long deleteSchedule(@PathVariable Long id, @PathVariable String password) {
-        return scheduleService.deleteSchedule(id, password);
+    @DeleteMapping("/schedules/{id}")
+    public Long deleteSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto scheduleRequestDto) {
+        return scheduleService.deleteSchedule(id, scheduleRequestDto);
     }
 }

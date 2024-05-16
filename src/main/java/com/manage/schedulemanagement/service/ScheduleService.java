@@ -40,17 +40,17 @@ public class ScheduleService {
     }
 
     @Transactional
-    public Long updateSchedule(Long id, String password, ScheduleRequestDto scheduleRequestDto) {
+    public Long updateSchedule(Long id, ScheduleRequestDto scheduleRequestDto) {
         Schedule schedule = findScheduleById(id);
-        if (password.equals(schedule.getPassword())) {
+        if (scheduleRequestDto.getPassword().equals(schedule.getPassword())) {
             schedule.update(scheduleRequestDto);
         }
         return id;
     }
 
-    public Long deleteSchedule(Long id, String password) {
+    public Long deleteSchedule(Long id, ScheduleRequestDto scheduleRequestDto) {
         Schedule schedule = findScheduleById(id);
-        if (password.equals(schedule.getPassword())) {
+        if (scheduleRequestDto.getPassword().equals(schedule.getPassword())) {
             scheduleRepository.delete(schedule);
         }
         return id;
