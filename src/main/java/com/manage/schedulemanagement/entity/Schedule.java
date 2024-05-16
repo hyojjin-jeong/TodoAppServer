@@ -30,4 +30,9 @@ public class Schedule extends Timestamped{
         this.password = scheduleRequestDto.getPassword();
         this.username = scheduleRequestDto.getUsername();
     }
+
+    public void update(ScheduleRequestDto scheduleRequestDto) {
+        this.title = scheduleRequestDto.getTitle();
+        this.contents = scheduleRequestDto.getContents();
+    }
 }

@@ -5,6 +5,7 @@ import com.manage.schedulemanagement.dto.ScheduleResponseDto;
 import com.manage.schedulemanagement.entity.Schedule;
 import com.manage.schedulemanagement.repository.ScheduleRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -36,5 +37,18 @@ public class ScheduleService {
 
     public List<ScheduleResponseDto> getSchedules(){
         return scheduleRepository.findAllByOrderByCreatedAtDesc().stream().map(ScheduleResponseDto::new).toList();
+    }
+
+    @Transactional
+    public Long updateSchedule(Long id, String password, ScheduleRequestDto scheduleRequestDto) {
+        Schedule schedule = findScheduleById(id);
+        if (password.equals(schedule.getPassword())) {
+            schedule.update(scheduleRequestDto);
+        }
+        return id;
+    }
+
+    private Schedule findScheduleById(Long id) {
+        return scheduleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("선택한 일정은 존재하지 않습니다."));
     }
 }

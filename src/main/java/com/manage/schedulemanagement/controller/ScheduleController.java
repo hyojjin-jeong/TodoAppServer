@@ -30,4 +30,9 @@ public class ScheduleController {
     public List<ScheduleResponseDto> getSchedules() {
         return scheduleService.getSchedules();
     }
+
+    @PutMapping("/schedules/{id}/{password}")
+    public Long updateSchedule(@PathVariable Long id, @PathVariable String password, @RequestBody ScheduleRequestDto scheduleRequestDto) {
+        return scheduleService.updateSchedule(id, password, scheduleRequestDto);
+    }
 }
