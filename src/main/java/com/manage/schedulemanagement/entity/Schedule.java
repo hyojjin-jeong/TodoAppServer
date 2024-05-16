@@ -3,12 +3,14 @@ package com.manage.schedulemanagement.entity;
 import com.manage.schedulemanagement.dto.ScheduleRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "schedule")
+@NoArgsConstructor
 public class Schedule extends Timestamped{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
