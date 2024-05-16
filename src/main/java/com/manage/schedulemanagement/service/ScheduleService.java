@@ -48,6 +48,14 @@ public class ScheduleService {
         return id;
     }
 
+    public Long deleteSchedule(Long id, String password) {
+        Schedule schedule = findScheduleById(id);
+        if (password.equals(schedule.getPassword())) {
+            scheduleRepository.delete(schedule);
+        }
+        return id;
+    }
+
     private Schedule findScheduleById(Long id) {
         return scheduleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("선택한 일정은 존재하지 않습니다."));
     }
