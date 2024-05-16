@@ -6,6 +6,8 @@ import com.manage.schedulemanagement.entity.Schedule;
 import com.manage.schedulemanagement.repository.ScheduleRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
@@ -30,5 +32,9 @@ public class ScheduleService {
         ScheduleResponseDto scheduleResponseDto = new ScheduleResponseDto(schedule);
 
         return scheduleResponseDto;
+    }
+
+    public List<ScheduleResponseDto> getSchedules(){
+        return scheduleRepository.findAllByOrderByCreatedAtDesc().stream().map(ScheduleResponseDto::new).toList();
     }
 }
