@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/schedule")
+@RequestMapping("/schedules")
 public class ScheduleController {
     private final ScheduleService scheduleService;
 
@@ -16,27 +16,27 @@ public class ScheduleController {
         this.scheduleService = scheduleService;
     }
 
-    @PostMapping("/schedules")
+    @PostMapping("")
     public ScheduleResponseDto createSchedule(@RequestBody ScheduleRequestDto scheduleRequestDto) {
         return scheduleService.createSchedule(scheduleRequestDto);
     }
 
-    @GetMapping("/schedules/{id}")
+    @GetMapping("/{id}")
     public ScheduleResponseDto getSchedule(@PathVariable Long id) {
         return scheduleService.getSchedule(id);
     }
 
-    @GetMapping("/schedules")
+    @GetMapping("")
     public List<ScheduleResponseDto> getSchedules() {
         return scheduleService.getSchedules();
     }
 
-    @PutMapping("/schedules/{id}")
+    @PutMapping("/{id}")
     public Long updateSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto scheduleRequestDto) {
         return scheduleService.updateSchedule(id, scheduleRequestDto);
     }
 
-    @DeleteMapping("/schedules/{id}")
+    @DeleteMapping("/{id}")
     public Long deleteSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto scheduleRequestDto) {
         return scheduleService.deleteSchedule(id, scheduleRequestDto);
     }
