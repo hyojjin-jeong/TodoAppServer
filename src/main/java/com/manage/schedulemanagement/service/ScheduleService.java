@@ -28,7 +28,7 @@ public class ScheduleService {
     }
 
     public ScheduleResponseDto getSchedule(Long id) {
-        Schedule schedule = scheduleRepository.findById(id).orElse(null);
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("선택한 일정은 존재하지 않습니다."));
 
         ScheduleResponseDto scheduleResponseDto = new ScheduleResponseDto(schedule);
 
