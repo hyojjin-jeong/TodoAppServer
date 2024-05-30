@@ -31,11 +31,11 @@ public class Users extends Timestamped{
     @OneToMany(mappedBy = "user")
     private List<Comment> commentList = new ArrayList<>();
 
-    public Users(UsersRequestDto requestDto) {
-        this.nickname = requestDto.getNickname();
-        this.username = requestDto.getUsername();
-        this.password = requestDto.getPassword();
-        this.role = requestDto.getRole();
+    public Users(String nickname, String username, String password, UserRoleEnum role) {
+        this.nickname = nickname;
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
 
     public void addCommentList(Comment comment) {
