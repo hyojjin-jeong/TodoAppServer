@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -25,10 +28,18 @@ public class Users extends Timestamped{
     @Enumerated(EnumType.STRING)
     private UserRoleEnum role;
 
+    @OneToMany(mappedBy = "user")
+    private List<Comment> commentList = new ArrayList<>();
+
     public Users(UsersRequestDto requestDto) {
         this.nickname = requestDto.getNickname();
         this.username = requestDto.getUsername();
         this.password = requestDto.getPassword();
         this.role = requestDto.getRole();
+    }
+
+    public void addCommentList(Comment comment) {
+        this.commentList.add(comment);
+        comment.setUser(this);
     }
 }
