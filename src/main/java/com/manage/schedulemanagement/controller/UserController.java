@@ -1,13 +1,9 @@
 package com.manage.schedulemanagement.controller;
 
-import com.manage.schedulemanagement.dto.LoginRequestDto;
 import com.manage.schedulemanagement.dto.SignupRequestDto;
-import com.manage.schedulemanagement.dto.UsersResponseDto;
 import com.manage.schedulemanagement.service.UserService;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
