@@ -68,7 +68,7 @@ public class WebSecurityConfig {
 
         http.formLogin((formLogin) ->
                 formLogin
-                        .loginPage("/api/user/login-page").permitAll()
+                        .loginPage("/api/user/login").permitAll()
         );
 
         // 필터 관리
