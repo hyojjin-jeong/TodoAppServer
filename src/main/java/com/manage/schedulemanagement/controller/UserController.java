@@ -41,16 +41,4 @@ public class UserController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body("회원가입이 완료되었습니다.");
     }
-
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequestDto requestDto, HttpServletResponse response) {
-        HttpHeaders headers = new HttpHeaders();
-        try {
-            String token = userService.login(requestDto,response);
-            headers.add(HttpHeaders.AUTHORIZATION, token);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
-        return ResponseEntity.ok().headers(headers).body("login을 성공했습니다.");
-    }
 }
