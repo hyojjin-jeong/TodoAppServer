@@ -1,7 +1,5 @@
 package com.manage.schedulemanagement.config;
 
-import com.manage.schedulemanagement.jwt.JwtAuthenticationFilter;
-import com.manage.schedulemanagement.jwt.JwtAuthorizationFilter;
 import com.manage.schedulemanagement.jwt.JwtUtil;
 import com.manage.schedulemanagement.security.UserDetailsServiceImpl;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -35,20 +33,6 @@ public class WebSecurityConfig {
         return configuration.getAuthenticationManager();
     }
 
-    // 인증 필터 생성
-    @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
-        JwtAuthenticationFilter filter = new JwtAuthenticationFilter(jwtUtil);
-        filter.setAuthenticationManager(authenticationManager(authenticationConfiguration));
-        return filter;
-    }
-
-    // 인가 필터 생성
-    @Bean
-    public JwtAuthorizationFilter jwtAuthorizationFilter() {
-        return new JwtAuthorizationFilter(jwtUtil, userDetailsService);
-    }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // CSRF 설정
@@ -65,15 +49,6 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/user/**").permitAll() // '/api/user/'로 시작하는 요청 모두 접근 허가
                         .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );
-
-        http.formLogin((formLogin) ->
-                formLogin
-                        .loginPage("/api/user/login").permitAll()
-        );
-
-        // 필터 관리
-        http.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
-        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

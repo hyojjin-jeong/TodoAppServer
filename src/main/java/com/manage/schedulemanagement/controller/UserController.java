@@ -1,17 +1,19 @@
 package com.manage.schedulemanagement.controller;
 
+import com.manage.schedulemanagement.dto.LoginRequestDto;
 import com.manage.schedulemanagement.dto.SignupRequestDto;
+import com.manage.schedulemanagement.dto.UsersResponseDto;
 import com.manage.schedulemanagement.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,5 +40,17 @@ public class UserController {
         userService.signup(requestDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("회원가입이 완료되었습니다.");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginRequestDto requestDto, HttpServletResponse response) {
+        HttpHeaders headers = new HttpHeaders();
+        try {
+            String token = userService.login(requestDto,response);
+            headers.add(HttpHeaders.AUTHORIZATION, token);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+        return ResponseEntity.ok().headers(headers).body("login을 성공했습니다.");
     }
 }
