@@ -1,5 +1,5 @@
 # TodoAppServer
-이 프로그램은 
+이 프로그램은 사용자들이 일정을 관리하고 댓글을 남길 수 있는 서버 프로그램입니다.
 
 ## 🛠️ Tech Stack
 - 언어 : Java - JDK 17, Groovy
