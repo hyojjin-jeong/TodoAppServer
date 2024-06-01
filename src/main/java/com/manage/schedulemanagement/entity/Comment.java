@@ -1,5 +1,6 @@
 package com.manage.schedulemanagement.entity;
 
+import com.manage.schedulemanagement.dto.CommentRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,5 +29,9 @@ public class Comment extends Timestamped {
         this.content = content;
         this.user = user;
         this.schedule = schedule;
+    }
+
+    public void update(CommentRequestDto commentRequestDto) {
+        this.content = commentRequestDto.getContent();
     }
 }

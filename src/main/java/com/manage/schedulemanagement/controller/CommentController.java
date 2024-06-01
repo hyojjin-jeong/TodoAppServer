@@ -25,20 +25,34 @@ public class CommentController {
     }
 
     @PostMapping("")
-    public ResponseEntity<String> createComment(@PathVariable("scheduleId") Long scheduleId, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<CommentResponseDto> createComment(@PathVariable("scheduleId") Long scheduleId, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         Users user = userDetails.getUser();
 
         if (scheduleId == null) {
-            return ResponseEntity.badRequest().body("일정을 선택하지 않았습니다.");
+            throw new IllegalArgumentException("일정을 선택하지 않았습니다.");
         }
         Schedule schedule = scheduleService.findScheduleById(scheduleId);
         if (schedule == null) {
-            return ResponseEntity.badRequest().body("선택한 일정은 DB에 저장되어 있지 않습니다. ");
+            throw new IllegalArgumentException("선택한 일정은 DB에 저장되어 있지 않습니다. ");
         }
         if (requestDto.getContent() == null) {
-            return ResponseEntity.badRequest().body("댓글을 작성하지 않았습니다.");
+            throw new IllegalArgumentException("댓글을 작성하지 않았습니다.");
         }
-        commentService.addComment(schedule, user, requestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body("새로운 댓글 작성에 성공했습니다.");
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(commentService.addComment(schedule, user, requestDto));
+    }
+
+    @PutMapping("/{commentId}")
+    public ResponseEntity<CommentResponseDto> updateComment(@PathVariable("scheduleId") Long scheduleId, @PathVariable("commentId") Long commentId, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Users user = userDetails.getUser();
+
+        if (scheduleId == null || commentId == null) {
+            throw new IllegalArgumentException("수정할 댓글을 선택해주세요.");
+        }
+
+        Schedule schedule = scheduleService.findScheduleById(scheduleId);
+
+        return ResponseEntity.ok().body(commentService.updateComment(schedule, commentId, user, requestDto));
+
     }
 }
