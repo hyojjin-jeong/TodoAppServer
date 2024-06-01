@@ -41,19 +41,18 @@ public class ScheduleService {
     }
 
     @Transactional
-    public Long updateSchedule(Long id, ScheduleRequestDto scheduleRequestDto) {
+    public ScheduleResponseDto updateSchedule(Long id, ScheduleRequestDto scheduleRequestDto) {
         Schedule schedule = checkPassword(id, scheduleRequestDto.getPassword());
         schedule.update(scheduleRequestDto);
-        return id;
+        return new ScheduleResponseDto(schedule);
     }
 
-    public Long deleteSchedule(Long id, ScheduleRequestDto scheduleRequestDto) {
+    public void deleteSchedule(Long id, ScheduleRequestDto scheduleRequestDto) {
         Schedule schedule = checkPassword(id, scheduleRequestDto.getPassword());
         scheduleRepository.delete(schedule);
-        return id;
     }
 
-    private Schedule findScheduleById(Long id) {
+    public Schedule findScheduleById(Long id) {
         return scheduleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("선택한 일정은 존재하지 않습니다."));
     }
 
