@@ -32,9 +32,6 @@ public class CommentController {
             throw new IllegalArgumentException("일정을 선택하지 않았습니다.");
         }
         Schedule schedule = scheduleService.findScheduleById(scheduleId);
-        if (schedule == null) {
-            throw new IllegalArgumentException("선택한 일정은 DB에 저장되어 있지 않습니다. ");
-        }
         if (requestDto.getContent() == null) {
             throw new IllegalArgumentException("댓글을 작성하지 않았습니다.");
         }
@@ -53,6 +50,21 @@ public class CommentController {
         Schedule schedule = scheduleService.findScheduleById(scheduleId);
 
         return ResponseEntity.ok().body(commentService.updateComment(schedule, commentId, user, requestDto));
+
+    }
+
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<String> deleteComment(@PathVariable("scheduleId") Long scheduleId, @PathVariable("commentId") Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Users user = userDetails.getUser();
+        Schedule schedule = scheduleService.findScheduleById(scheduleId);
+
+        if (scheduleId == null || commentId == null) {
+            return ResponseEntity.badRequest().body("삭제할 댓글을 선택해주세요.");
+        }
+
+        commentService.deleteComment(commentId, user);
+
+        return ResponseEntity.ok().body("댓글 삭제를 성공했습니다.");
 
     }
 }

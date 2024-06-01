@@ -32,18 +32,31 @@ public class CommentService {
 
     @Transactional
     public CommentResponseDto updateComment(Schedule schedule, Long commentId, Users user, CommentRequestDto requestDto ) {
-        if (!scheduleRepository.existsById(schedule.getId())) {
-            throw new IllegalArgumentException("선택한 일정이 DB에 존재하지 않습니다.");
-        }
-
-        Comment comment = commentRepository.findById(commentId).orElseThrow(IllegalArgumentException::new);
-
-        if (!Objects.equals(comment.getUser().getId(), user.getId())) {
-            throw new IllegalArgumentException("댓글의 작성자만 수정할 수 있습니다.");
-        }
+        Comment comment = checkUser(commentId, user);
 
         comment.update(requestDto);
 
         return CommentResponseDto.toDto(comment);
+    }
+
+    public CommentResponseDto deleteComment(Long commentId, Users user) {
+        Comment comment = checkUser(commentId, user);
+
+        commentRepository.delete(comment);
+
+        return CommentResponseDto.toDto(comment);
+    }
+
+    private Comment findCommentById(Long commentId) {
+        return commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("선택한 댓글은 존재하지 않습니다."));
+    }
+
+    private Comment checkUser (Long id, Users user) {
+        Comment checkComment = findCommentById(id);
+        if (!Objects.equals(checkComment.getUser().getId(), user.getId())) {
+            throw new IllegalArgumentException("댓글의 작성자만 수행할 수 있습니다.");
+        }
+
+        return checkComment;
     }
 }
